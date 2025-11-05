@@ -1,0 +1,63 @@
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+
+<div class="row justify-content-md-center">
+    <div class="col-md-10 mt-3">
+        <div class="card border-secundary mb-3">
+            <div class="card-header">
+                <h3>Consulta de Cliente</h3>
+            </div>
+            <div class="card-body">
+                <h5 class="card-subtitle mb-2 text-muted">Lista de Clientes cadastrados:</h5><br />
+                
+                <div *ngIf="mensagem" class="mb-3">
+                    <strong>{{mensagem}}</strong>
+                </div>
+
+                <div class="row mb-3 col-6">
+                    <div class="input-group col-md-4">
+                        <span class="input-group-text" id="snome">busca</span>
+                        <input type="text" class="form-control" [(ngModel)]="filtro.nome"
+                            placeholder="Filtrar clientes pelo nome." aria-describedby="snome" />
+                    </div>
+                </div>
+
+                <table class="table table-hover table-sm">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>CPF</th>
+                            <th>Data de Cadastro</th>
+                            <th>Funções</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let e of clientes | filterBy: filtro | paginate : { itemsPerPage: 5, currentPage: pagina }">
+                            <td class="col-md-5">{{e.nome}}</td>
+                            <td class="col-md-2">{{e.cpf | mask: '000.000.000-00'}}</td>
+                            <td class="col-md-2">{{e.dataCriacao | date : 'dd/MM/yyyy'}}</td>
+                            <td class="col-md-3">
+                                <button class="btn btn-sm btn-primary" [routerLink]="['/cliente-edicao', e.idCliente]">Editar</button>
+                                &nbsp; - &nbsp;
+                                <button class="btn btn-sm btn-danger" (click)="onDelete(e.idCliente)" >Excluir</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="1">
+                                Quantidade de clientes: {{(clientes | filterBy: filtro).length}}
+                            </td>
+                            <td colspan="3">
+                                <pagination-controls
+                                    (pageChange)="handlePageChange($event)"
+                                    previousLabel="Página anterior"
+                                    nextLabel="Próxima página">
+                                </pagination-controls>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

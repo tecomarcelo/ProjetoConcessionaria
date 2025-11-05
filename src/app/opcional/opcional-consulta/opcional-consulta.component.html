@@ -1,0 +1,63 @@
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+
+<div class="row justify-content-md-center">
+    <div class="col-md-10 mt-3">
+        <div class="card border-secundary mb-3">
+            <div class="card-header">
+                <h3>Consulta de Opcionais</h3>
+            </div>
+            <div class="card-body">
+                <h5 class="card-subtitle mb-2 text-muted">Lista de Opcionais Disponíveis:</h5><br />
+                
+                <div *ngIf="mensagem" class="mb-3">
+                    <strong>{{mensagem}}</strong>
+                </div>
+
+                <div class="row mb-3 col-6">
+                    <div class="input-group col-md-4">
+                        <span class="input-group-text" id="snome">busca</span>
+                        <input type="text" class="form-control" [(ngModel)]="filtro.item"
+                            placeholder="Filtrar Opcionais pelo nome." aria-describedby="snome" />
+                    </div>
+                </div>
+
+                <table class="table table-hover table-sm">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Veículo</th>
+                            <th>Preço</th>
+                            <th>Funções</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let e of opcionals | filterBy: filtro | paginate : { itemsPerPage: 5, currentPage: pagina }">
+                            <td class="col-md-5">{{e.item}}</td>
+                            <td class="col-md3" >{{e.veiculo.nome}}</td>
+                            <td class="col-md-2">{{e.preco | currency:'BRL':'symbol':'1.2-2'}}</td>
+                            <td class="col-md-3">
+                                <button class="btn btn-sm btn-primary" [routerLink]="['/opcional-edicao', e.idOpcional]">Editar</button>
+                                &nbsp; - &nbsp;
+                                <button class="btn btn-sm btn-danger" (click)="onDelete(e.idOpcional)" >Excluir</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="1">
+                                <strong>Quantidade de opcionais:</strong> {{(opcionals | filterBy: filtro).length}}
+                            </td>
+                            <td colspan="3">
+                                <pagination-controls
+                                    (pageChange)="handlePageChange($event)"
+                                    previousLabel="Página anterior"
+                                    nextLabel="Próxima página">
+                                </pagination-controls>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

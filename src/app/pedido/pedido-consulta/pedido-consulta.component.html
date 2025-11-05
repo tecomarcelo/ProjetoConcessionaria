@@ -1,0 +1,60 @@
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+
+<div class="row justify-content-md-center">
+    <div class="col-md-10 mt-3">
+        <div class="card border-secundary mb-3">
+            <div class="card-header">
+                <h3>Consulta de Pedidos</h3>
+            </div>
+            <div class="card-body">
+                <h5 class="card-subtitle mb-2 text-muted">Lista de Pedidos Realizados:</h5><br />
+
+                <div *ngIf="mensagem" class="mb-3">
+                    <strong>{{mensagem}}</strong>
+                </div>
+
+                <div class="row mb-4 col-6">
+                    <div class="input-group col-md-4">
+                        <span class="input-group-text" id="snome">busca</span>
+                        <input type="text" class="form-control" [(ngModel)]="filtro.idPedido"
+                            placeholder="Filtrar pedidos pelo número." aria-describedby="snome" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="card border-light mb-3 col-6"
+                        *ngFor="let e of pedidos | filterBy: filtro | paginate : { itemsPerPage: 4, currentPage: pagina }">
+                        <div class="card-header text-bg-dark card-title-primary">Pedido: {{e.idPedido}}</div>
+                        <div class="card-body">
+                            <h6 class="card-subtitle">Dados do Pedido</h6>
+                            <p class="card-text">
+                                Nome do cliente: {{e.cliente.nome}}<br />
+                                Valor total: {{e.valor | currency:'BRL':'symbol':'1.2-2'}}<br />
+                                Veiculo: {{e.veiculo.nome}}<br />
+                                Opicional: {{e.opcional.item}}<br />
+                                Data da Compra: {{e.dataCriacao | date : 'dd/MM/yyyy'}}<br />
+                            </p>
+                            <button class="btn btn-sm btn-primary"
+                                [routerLink]="['/pedido-edicao', e.idPedido]">Editar</button>
+                            &nbsp; - &nbsp;
+                            <button class="btn btn-sm btn-danger" (click)="onDelete(e.idPedido)">Excluir</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="mb-3 col-4 card-text">
+                        Quantidade de clientes: {{(pedidos | filterBy: filtro).length}}
+                    </div>
+                    <div class="mb-3 col-8 card-text">
+                        <pagination-controls (pageChange)="handlePageChange($event)" previousLabel="Página anterior"
+                            nextLabel="Próxima página">
+                        </pagination-controls>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

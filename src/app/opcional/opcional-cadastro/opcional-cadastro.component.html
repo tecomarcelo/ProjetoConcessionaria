@@ -1,0 +1,66 @@
+
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+
+<div *ngIf="mensagem_sucesso" class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Sucesso!</strong> {{mensagem_sucesso}}
+    <button type="button" class="btn-close" aria-label="Close" (click)="limparMensagens()"></button>
+</div>
+
+<div *ngIf="mensagem_erro" class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>Erro!</strong> {{mensagem_erro}}
+    <button type="button" class="btn-close" aria-label="Close" (click)="limparMensagens()"></button>
+</div>
+
+<div class="row justify-content-md-center">
+    <div class="col-md-10 mt-3">
+        <div class="card border-secundary mb-3">
+            <div class="card-header">
+                <h3>Cadastro de Opcionais</h3>
+            </div>
+            <div class="card-body">
+                <h5 class="card-subtitle mb-2 text-muted">Preencha dos dados abaixo:</h5><br />
+                <form [formGroup]="formCadastro" (ngSubmit)="onSubmit()" class="card-text">
+                    <div class="col-md-6">
+                        <label >Item opcional</label>
+                        <input type="text" class="form-control" formControlName="item" placeholder="Digite a descrição do item"/>
+                        <span class="text-danger" *ngIf="form.item.touched && form.item.invalid">
+                            <span *ngIf="form.item.errors.required">
+                                Por favor, informe o item.
+                            </span>
+                        </span>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Preço do Item</label>
+                        <input type="text" class="form-control" formControlName="preco" placeholder="digite o valor" />
+                        <span class="text-danger" *ngIf="form.preco.touched && form.preco.invalid">
+                            <span *ngIf="form.preco.errors.required">
+                                Por favor, informe o valor.
+                            </span>
+                        </span>
+                    </div>
+                    <div class="col-md-6">
+                        <label>A qual veículo pertence o acessário?</label>
+                        <select class="form-select" formControlName="idVeiculo">
+                            <option value="">Escolha um veiculo</option>
+                            <option *ngFor="let e of veiculos" value="{{e.idVeiculo}}">
+                                {{e.nome}} | ano: {{e.anoVeiculo}}
+                            </option>
+                        </select>                        
+                        <span class="text-danger" *ngIf="form.idVeiculo.touched && form.idVeiculo.invalid">
+                            <span *ngIf="form.idVeiculo.errors.required">
+                                Por favor, informe o veiculo.
+                            </span>
+                        </span>
+                    </div>
+                    <div class="col-12">
+                        <br />
+                        <input type="submit" value="Cadastrar" class="btn btn-success" [disabled]="!formCadastro.valid" />
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>

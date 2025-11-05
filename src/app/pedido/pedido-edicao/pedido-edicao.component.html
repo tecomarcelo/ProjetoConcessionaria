@@ -1,0 +1,94 @@
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+
+<div *ngIf="mensagem_sucesso" class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Sucesso!</strong> {{mensagem_sucesso}}
+    <button type="button" class="btn-close" aria-label="Close" (click)="limparMensagens()"></button>
+</div>
+
+<div *ngIf="mensagem_erro" class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>Erro!</strong> {{mensagem_erro}}
+    <button type="button" class="btn-close" aria-label="Close" (click)="limparMensagens()"></button>
+</div>
+
+<div class="row justify-content-md-center">
+    <div class="col-md-10 mt-3">
+        <div class="card border-secundary mb-3">
+            <div class="card-header">
+                <h3>Atualização do Pedido</h3>
+            </div>
+            <div class="card-body">
+                <h5 class="card-subtitle mb-2 text-muted">Preencha os dados referente ao pedido abaixo:</h5><br />          
+                <form [formGroup]="formEdicao" (ngSubmit)="onSubmit()" class="card-text">
+
+                    <input type="hidden" formControlName="idPedido" />
+                
+                    <div class="col-md-6">
+                        <label >Cliente</label>
+                        <select class="form-select" formControlName="idCliente" placeholder="Selecione o cliente">
+                            <option *ngFor="let e of clientes" value="{{e.idCliente}}">
+                                {{e.nome}} | CPF: {{e.cpf | mask: '000.000.000-00'}}
+                            </option>
+                        </select>
+                        <span class="text-danger" *ngIf="form.idCliente.touched && form.idCliente.invalid">
+                            <span *ngIf="form.idCliente.errors.required">
+                                Por favor, informe o Cliente.
+                            </span>
+                        </span>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <label >Valor</label>
+                        <input type="text" class="form-control" formControlName="valor" placeholder="Digite o novo valor"/>
+                        <span class="text-danger" *ngIf="form.valor.touched && form.valor.invalid">
+                            <span *ngIf="form.valor.errors.required">
+                                Por favor, informe o valor.
+                            </span>
+                        </span>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Quantidade</label>
+                        <input type="text" class="form-control" formControlName="quantidade" placeholder="digite a nova quantidade" />
+                        <span class="text-danger" *ngIf="form.quantidade.touched && form.quantidade.invalid">
+                            <span *ngIf="form.quantidade.errors.required">
+                                Por favor, informe a quantidade.
+                            </span>
+                        </span>
+                    </div>
+                    <div class="col-md-6">
+                        <label >Veiculo</label>
+                        <select class="form-select" formControlName="idVeiculo" placeholder="Selecione o Veiculo">
+                            <option *ngFor="let e of veiculos" value="{{e.idVeiculo}}">
+                                {{e.nome}} | Preço: {{e.preco}}
+                            </option>
+                        </select>
+                        <span class="text-danger" *ngIf="form.idVeiculo.touched && form.idVeiculo.invalid">
+                            <span *ngIf="form.idVeiculo.errors.required">
+                                Por favor, informe o Veiculo.
+                            </span>
+                        </span>
+                    </div>
+                    <div class="col-md-6">
+                        <label >Opcional</label>
+                        <select class="form-select" formControlName="idOpcional" placeholder="Selecione o opcional">
+                            <option *ngFor="let e of opcionals" value="{{e.idOpcional}}">
+                                {{e.item}} | Preço: {{e.preco}}
+                            </option>
+                        </select>
+                        <span class="text-danger" *ngIf="form.idOpcional.touched && form.idOpcional.invalid">
+                            <span *ngIf="form.idOpcional.errors.required">
+                                Por favor, informe o Opcional.
+                            </span>
+                        </span>
+                    </div>
+                    <div class="col-12">
+                        <br />
+                        <input type="submit" value="Alterar" class="btn btn-success" [disabled]="!formEdicao.valid" />
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>

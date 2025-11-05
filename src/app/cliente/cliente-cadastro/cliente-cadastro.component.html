@@ -1,0 +1,52 @@
+
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+
+<div *ngIf="mensagem_sucesso" class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Sucesso!</strong> {{mensagem_sucesso}}
+    <button type="button" class="btn-close" aria-label="Close" (click)="limparMensagens()"></button>
+</div>
+
+<div *ngIf="mensagem_erro" class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>Erro!</strong> {{mensagem_erro}}
+    <button type="button" class="btn-close" aria-label="Close" (click)="limparMensagens()"></button>
+</div>
+
+<div class="row justify-content-md-center">
+    <div class="col-md-10 mt-3">
+        <div class="card border-secundary mb-3">
+            <div class="card-header">
+                <h3>Cadastro de Cliente</h3>
+            </div>
+            <div class="card-body">
+                <h5 class="card-subtitle mb-2 text-muted">Preencha dos dados abaixo:</h5><br />
+                <form [formGroup]="formCadastro" (ngSubmit)="onSubmit()" class="card-text">
+                    <div class="col-md-6">
+                        <label >Nome</label>
+                        <input type="text" class="form-control" formControlName="nome" placeholder="Digite o nome"/>
+                        <span class="text-danger" *ngIf="form.nome.touched && form.nome.invalid">
+                            <span *ngIf="form.nome.errors.required">
+                                Por favor, informe o nome.
+                            </span>
+                        </span>
+                    </div>
+                    <div class="col-md-6">
+                        <label>CPF</label>
+                        <input type="text" class="form-control" formControlName="cpf" placeholder="digite o CPF" mask="000.000.000-00" />
+                        <span class="text-danger" *ngIf="form.cpf.touched && form.cpf.invalid">
+                            <span *ngIf="form.cpf.errors.required">
+                                Por favor, informe o CPF.
+                            </span>
+                        </span>
+                    </div>
+                    <div class="col-12">
+                        <br />
+                        <input type="submit" value="Cadastrar" class="btn btn-success" [disabled]="!formCadastro.valid" />
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
