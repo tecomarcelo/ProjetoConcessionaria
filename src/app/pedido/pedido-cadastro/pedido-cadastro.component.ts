@@ -52,7 +52,7 @@ export class PedidoCadastroComponent implements OnInit {
       }
     );
     
-    // OUVIR MUDANÇAS NO CAMPO DE VEÍCULO * FILTRA OPCIONAIS CONFORME VEICULO
+    // ouvir mudanças no campo de veiculo * filtra opcionais conforme veiculo
     this.formCadastro.get('idVeiculo')?.valueChanges.subscribe((idVeiculoSelecionado: string | null) => {
       if (idVeiculoSelecionado) {
         this.opcionaisFiltrados = this.opcionals.filter(
@@ -63,13 +63,18 @@ export class PedidoCadastroComponent implements OnInit {
         this.opcionaisFiltrados = [];
         this.formCadastro.get('idOpcional')?.setValue('');
       }
+      // limpa opcionais já adicionados ao trocar o veículo
+      this.opcionaisSelecionados = [];
+      this.formCadastro.get('idsOpcionais')?.setValue([]);
+
+
     });
 
     // sempre recalcula o valor do pedido
     this.atualizarValorPedido();
 
     this.formCadastro.get('idVeiculo')?.valueChanges.subscribe(() => this.atualizarValorPedido());
-    this.formCadastro.get('idOpcionaisSelecionados')?.valueChanges.subscribe(() => this.atualizarValorPedido());
+    this.formCadastro.get('idsOpcionais')?.valueChanges.subscribe(() => this.atualizarValorPedido());
     this.formCadastro.get('quantidade')?.valueChanges.subscribe(() => this.atualizarValorPedido());
   }
 
@@ -78,7 +83,7 @@ export class PedidoCadastroComponent implements OnInit {
     idCliente: new FormControl('', [Validators.required]),
     idVeiculo: new FormControl('', [Validators.required]),
     idOpcional: new FormControl(''),
-    idOpcionaisSelecionados: new FormControl<number[]>([], [Validators.required]),
+    idsOpcionais: new FormControl<number[]>([]),
     valor: new FormControl('', [Validators.required])
     
   });
@@ -89,7 +94,7 @@ export class PedidoCadastroComponent implements OnInit {
 
   atualizarValorPedido(): void {
     const idVeiculo = this.formCadastro.get('idVeiculo')?.value;
-    const OpcionaisIds = this.formCadastro.get('idOpcionaisSelecionados')?.value || [];
+    const OpcionaisIds = this.formCadastro.get('idsOpcionais')?.value || [];
     const quantidade = Number(this.formCadastro.get('quantidade')?.value) || 1;
 
     //pega o veiculo selecionado
@@ -120,7 +125,7 @@ export class PedidoCadastroComponent implements OnInit {
     this.opcionaisSelecionados.push(opc);
 
     const ids = this.opcionaisSelecionados.map(o => o.idOpcional);
-    this.formCadastro.get('idOpcionaisSelecionados')?.setValue(ids);
+    this.formCadastro.get('idsOpcionais')?.setValue(ids);
 
     this.formCadastro.get('idOpcional')?.setValue(''); // limpa o select
 
@@ -130,7 +135,7 @@ export class PedidoCadastroComponent implements OnInit {
   removeOpcionalLocal(index: number) {
     this.opcionaisSelecionados.splice(index, 1);
     const ids = this.opcionaisSelecionados.map(o => o.idOpcional);
-    this.formCadastro.get('idOpcionaisSelecionados')?.setValue(ids);
+    this.formCadastro.get('idsOpcionais')?.setValue(ids);
     this.atualizarValorPedido();
   }
 

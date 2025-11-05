@@ -15,6 +15,7 @@ export class PedidoConsultaComponent implements OnInit {
 
   pagina: number = 1; //paginação
   filtro: any = { idPedido: ''}; //filtro
+  accordion: number = 0;
 
   mensagem: string = '';
 

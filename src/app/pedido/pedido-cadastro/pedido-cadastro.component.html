@@ -65,7 +65,7 @@
 
                         <div class="input-group mb-2">
                             <select class="form-select" formControlName="idOpcional">
-                                <option value="">Escolha o opcionail</option>
+                                <option value="">Escolha o opcional</option>
                                 <option *ngFor="let e of opcionaisFiltrados" value="{{e.idOpcional}}">
                                     {{e.item}} | preço: {{e.preco | currency:'BRL':'symbol':'1.2-2'}}
                                 </option>
@@ -77,19 +77,19 @@
                         </div>                    
 
                         <!-- Lista de opcionais adicionados -->
-                         <ul class="list-group">
-                            <li *ngFor="let op of opcionaisSelecionados; let i = index" class="list-group-item d-flex justify-content-between">
-                                <span>
-                                    {{op.item}} - {{op.preco | currency:'BRL'}}  |  
-                                    <button class="btn btn-close btn-sm" aria-label="Close" (click)="removeOpcionalLocal(i)"></button>
+                         <ul class="mt-2">
+                            <li *ngFor="let op of opcionaisSelecionados; let i = index" class="d-flex align-items-center d-flex justify-content-between">
+                                <span class="fs-6 fst-italic">
+                                    ▪ {{op.item}} - {{op.preco | currency:'BRL'}}  |  
+                                    <button class="btn btn-close btn-sm" aria-label="Close" title="excluir item" style="font-size:10px" (click)="removeOpcionalLocal(i)"></button>
                                 </span>                                
                             </li>
                          </ul>
 
-                        <span class="text-danger" *ngIf="form.idOpcionaisSelecionados.touched && form.idOpcional.invalid">
-                            <span *ngIf="form.idOpcional.errors.required">
+                        <span class="text-danger" *ngIf="form.idsOpcionais.touched && form.idOpcional.invalid">
+                            <!--<span *ngIf="form.idOpcional.errors.required">
                                 Por favor, informe ao menos um opcional.
-                            </span>
+                            </span> -->
                         </span>
                     </div>
                     <div class="col-md-6">

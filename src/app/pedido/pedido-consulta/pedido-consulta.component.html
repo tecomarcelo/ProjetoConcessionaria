@@ -23,38 +23,53 @@
 
                 <div class="row">
                     <div class="card border-light mb-3 col-6"
-                        *ngFor="let e of pedidos | filterBy: filtro | paginate : { itemsPerPage: 4, currentPage: pagina }">
+                        *ngFor="let e of pedidos | filterBy: filtro | paginate : { itemsPerPage: 4, currentPage: pagina } let i = index">
                         <div class="card-header text-bg-dark card-title-primary">Pedido: {{e.idPedido}}</div>
                         <div class="card-body">
                             <h6 class="card-subtitle">Dados do Pedido</h6>
-                            <p class="card-text">
-                                Nome do cliente: {{e.cliente.nome}}<br />
-                                Valor total: {{e.valor | currency:'BRL':'symbol':'1.2-2'}}<br />
-                                Veiculo: {{e.veiculo.nome}}<br />
-                                Opicional: {{e.opcional.item}}<br />
-                                Data da Compra: {{e.dataCriacao | date : 'dd/MM/yyyy'}}<br />
-                            </p>
+                            Nome do cliente: {{e.cliente.nome}}<br />
+                            Valor total: {{e.valor | currency:'BRL':'symbol':'1.2-2'}}<br />
+                            Veiculo: {{e.veiculo.nome}}<br />
+                            <div class="accordion-item" *ngIf="e.opcionais && e.opcionais.length > 0">
+                                <h2 class="accordion-header" [id]="'heading'+i">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        [attr.data-bs-target]="'#collapse'+i" aria-expanded="false"
+                                        [attr.aria-controls]="'collapse'+i">
+                                        Expandir opcionais ▼
+                                    </button>
+                                </h2>
+                                <div [id]="'collapse'+i" class="accordion-collapse collapse"
+                                    [attr.aria-labelledby]="'heading'+i" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <div *ngFor="let op of e.opcionais">
+                                            ▪ {{op.item}} | preço: {{op.preco | currency:'BRL':'symbol':'1.2-2'}} 
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div>
+                            
+                            <br />
+                            Data da Compra: {{e.dataCriacao | date : 'dd/MM/yyyy'}}<br />
                             <button class="btn btn-sm btn-primary"
                                 [routerLink]="['/pedido-edicao', e.idPedido]">Editar</button>
                             &nbsp; - &nbsp;
-                            <button class="btn btn-sm btn-danger" (click)="onDelete(e.idPedido)">Excluir</button>
+                            <button class="btn btn-sm btn-danger" (click)="onDelete(e.idPedido)">Excluir</button>                            
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="card-footer">
-                <div class="row">
-                    <div class="mb-3 col-4 card-text">
-                        Quantidade de clientes: {{(pedidos | filterBy: filtro).length}}
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="mb-3 col-4 card-text">
+                            Quantidade de clientes: {{(pedidos | filterBy: filtro).length}}
+                        </div>
+                        <div class="mb-3 col-8 card-text">
+                            <pagination-controls (pageChange)="handlePageChange($event)" previousLabel="Página anterior"
+                                nextLabel="Próxima página">
+                            </pagination-controls>
+                        </div>
                     </div>
-                    <div class="mb-3 col-8 card-text">
-                        <pagination-controls (pageChange)="handlePageChange($event)" previousLabel="Página anterior"
-                            nextLabel="Próxima página">
-                        </pagination-controls>
-                    </div>
-                </div>
 
+                </div>
             </div>
         </div>
     </div>
-</div>
