@@ -15,6 +15,7 @@ export class PedidoCadastroComponent implements OnInit {
   veiculos: any [] = [];
   opcionals: any [] = [];
   opcionaisFiltrados: any[] = [];
+  opcionaisSelecionados: any[] = [];
 
   mensagem_sucesso: string = '';
   mensagem_erro: string = '';
@@ -76,8 +77,8 @@ export class PedidoCadastroComponent implements OnInit {
     quantidade: new FormControl('', [Validators.required]),
     idCliente: new FormControl('', [Validators.required]),
     idVeiculo: new FormControl('', [Validators.required]),
-    idOpcional: new FormControl('', []),
-    idOpcionaisSelecionados: new FormControl([], [Validators.required]),
+    idOpcional: new FormControl(''),
+    idOpcionaisSelecionados: new FormControl<number[]>([], [Validators.required]),
     valor: new FormControl('', [Validators.required])
     
   });
@@ -105,6 +106,32 @@ export class PedidoCadastroComponent implements OnInit {
     //ataualiza o campo "valor" do form
     this.formCadastro.get('valor')?.setValue(valor.toFixed(2));
     
+  }
+
+  addOpcional() {
+    const id = this.formCadastro.get('idOpcional')?.value;
+    if (!id) return;
+
+    const opc = this.opcionaisFiltrados.find(o => o.idOpcional == id);
+    
+    // evita duplicação
+    if (this.opcionaisSelecionados.some(o => o.idOpcional == id)) return;
+
+    this.opcionaisSelecionados.push(opc);
+
+    const ids = this.opcionaisSelecionados.map(o => o.idOpcional);
+    this.formCadastro.get('idOpcionaisSelecionados')?.setValue(ids);
+
+    this.formCadastro.get('idOpcional')?.setValue(''); // limpa o select
+
+    this.atualizarValorPedido();
+  }
+
+  removeOpcionalLocal(index: number) {
+    this.opcionaisSelecionados.splice(index, 1);
+    const ids = this.opcionaisSelecionados.map(o => o.idOpcional);
+    this.formCadastro.get('idOpcionaisSelecionados')?.setValue(ids);
+    this.atualizarValorPedido();
   }
 
   onSubmit(): void {
