@@ -57,16 +57,17 @@ export class PedidoCadastroComponent implements OnInit {
         this.opcionaisFiltrados = this.opcionals.filter(
           (o) => o.veiculo.idVeiculo === idVeiculoSelecionado
         );
-        this.formCadastro.get('idOpcionaisSelecionados')?.setValue([]);
+        this.formCadastro.get('idOpcional')?.setValue('');
       } else {
         this.opcionaisFiltrados = [];
-        this.formCadastro.get('idOpcionaisSelecionados')?.setValue([]);
+        this.formCadastro.get('idOpcional')?.setValue('');
       }
     });
 
     // sempre recalcula o valor do pedido
     this.atualizarValorPedido();
 
+    this.formCadastro.get('idVeiculo')?.valueChanges.subscribe(() => this.atualizarValorPedido());
     this.formCadastro.get('idOpcionaisSelecionados')?.valueChanges.subscribe(() => this.atualizarValorPedido());
     this.formCadastro.get('quantidade')?.valueChanges.subscribe(() => this.atualizarValorPedido());
   }
@@ -75,6 +76,7 @@ export class PedidoCadastroComponent implements OnInit {
     quantidade: new FormControl('', [Validators.required]),
     idCliente: new FormControl('', [Validators.required]),
     idVeiculo: new FormControl('', [Validators.required]),
+    idOpcional: new FormControl('', []),
     idOpcionaisSelecionados: new FormControl([], [Validators.required]),
     valor: new FormControl('', [Validators.required])
     
