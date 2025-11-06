@@ -41,6 +41,20 @@
                             </span>
                         </span>
                     </div>
+                    <div class="col-md-6">
+                        <label>A qual veículo pertence o acessório?</label>
+                        <select class="form-select" formControlName="idVeiculo">
+                            <option value="">Escolha um veiculo</option>
+                            <option *ngFor="let e of veiculos" [ngValue]="e.idVeiculo">
+                                {{e.nome}} | ano: {{e.anoVeiculo}}
+                            </option>
+                        </select>                        
+                        <span class="text-danger" *ngIf="form.idVeiculo.touched && form.idVeiculo.invalid">
+                            <span *ngIf="form.idVeiculo.errors.required">
+                                Por favor, informe o veiculo.
+                            </span>
+                        </span>
+                    </div>
                     <div class="col-12">
                         <br />
                         <input type="submit" value="Alterar" class="btn btn-success" [disabled]="!formEdicao.valid" />

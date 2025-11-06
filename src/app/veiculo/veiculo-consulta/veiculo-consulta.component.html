@@ -28,7 +28,7 @@
                         <div class="card-body">
                             <h6 class="card-subtitle">Dados do Veiculo</h6>
                             <p class="card-text">
-                                {{e.nome}} - Ano/Modelo: {{e.anoVeiculo | mask:"0000 - 0000"}}<br />R$ {{e.preco}}
+                                {{e.nome}} - Ano/Modelo: {{e.anoVeiculo | mask:"0000 - 0000"}}<br/>Fabricante: {{e.marca}}<br />R$ {{e.preco}}
                             </p>
                             <button class="btn btn-sm btn-primary"
                                 [routerLink]="['/veiculo-edicao', e.idVeiculo]">Editar</button>

@@ -32,6 +32,15 @@
                         </span>
                     </div>
                     <div class="col-md-6">
+                        <label >Marca do Veiculo</label>
+                        <input type="text" class="form-control" formControlName="marca" placeholder="Digite o novo fabricante"/>
+                        <span class="text-danger" *ngIf="form.marca.touched && form.nome.invalid">
+                            <span *ngIf="form.marca.errors.required">
+                                Por favor, informe o fabricante.
+                            </span>
+                        </span>
+                    </div>
+                    <div class="col-md-6">
                         <label>Valor do Veiculo</label>
                         <input type="text" class="form-control" formControlName="preco" placeholder="digite o novo valor" />
                         <span class="text-danger" *ngIf="form.preco.touched && form.preco.invalid">
@@ -42,8 +51,7 @@
                     </div>
                     <div class="col-md-6">
                         <label>Ano de Fabricação e Modelo</label>
-                        <input type="text" class="form-control" formControlName="anoVeiculo" placeholder="digite ano de fabricação e modelo" 
-                        mask="0000 - 0000 "/>
+                        <input type="text" class="form-control" formControlName="anoVeiculo" placeholder="digite ano de fabricação e modelo" />
                         <span class="text-danger" *ngIf="form.anoVeiculo.touched && form.anoVeiculo.invalid">
                             <span *ngIf="form.anoVeiculo.errors.required">
                                 Por favor, informe o ano de fabricação e modelo.

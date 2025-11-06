@@ -14,7 +14,8 @@ export class OpcionalEdicaoComponent implements OnInit {
 
   mensagem_sucesso: string = '';
   mensagem_erro: string = '';
-  
+  veiculos: any[] = [];
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private httpClient: HttpClient,
@@ -22,24 +23,38 @@ export class OpcionalEdicaoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    
+
     this.spinner.show();
 
     let idOpcional = this.activatedRoute.snapshot.paramMap.get('idOpcional') as string;
-    
-    this.httpClient.get(environment.apiUrl + "/Opcional/" + idOpcional) 
+
+    this.httpClient.get(environment.apiUrl + "/Veiculo")
       .subscribe(
         (res) => {
-          this.formEdicao.patchValue(res);
+          this.veiculos = res as any[];
+        }
+      );
+
+    this.httpClient.get(environment.apiUrl + "/Opcional/" + idOpcional)
+      .subscribe(
+        (res: any) => {
+          this.formEdicao.patchValue({
+            idOpcional: res.idOpcional,
+            item: res.item,
+            preco: res.preco,
+            idVeiculo: res.veiculo?.idVeiculo
+          });
           this.spinner.hide();
         }
-      )
+      );
+
   }
 
   formEdicao = new FormGroup({
     idOpcional: new FormControl('', []),
     item: new FormControl('', [Validators.required]),
-    preco: new FormControl('', [Validators.required])
+    preco: new FormControl('', [Validators.required]),
+    idVeiculo: new FormControl('', [Validators.required])
   });
 
   get form(): any {
@@ -50,6 +65,8 @@ export class OpcionalEdicaoComponent implements OnInit {
 
     this.limparMensagens();
     this.spinner.hide();
+
+    console.log('payload: ', this.formEdicao.value);
 
     this.httpClient.put(environment.apiUrl + "/Opcional", this.formEdicao.value)
       .subscribe(
@@ -72,7 +89,7 @@ export class OpcionalEdicaoComponent implements OnInit {
         }
       )
   }
-  
+
   limparMensagens(): void {
     this.mensagem_sucesso = '';
     this.mensagem_erro = '';

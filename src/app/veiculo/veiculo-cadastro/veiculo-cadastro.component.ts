@@ -26,6 +26,7 @@ export class VeiculoCadastroComponent {
 
   formCadastro = new FormGroup({
     nome: new FormControl('', [Validators.required]),
+    marca: new FormControl('', [Validators.required]),
     preco: new FormControl('', [Validators.required]),
     anoVeiculo: new FormControl("", [Validators.required]),
   });
