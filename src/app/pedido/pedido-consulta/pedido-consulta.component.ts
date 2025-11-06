@@ -33,7 +33,6 @@ export class PedidoConsultaComponent implements OnInit {
       .subscribe(
         (res) => {
           this.pedidos = res as any[];
-          console.log('##Pedidos: ', this.pedidos);
           this.spinner.hide();
         }        
       );

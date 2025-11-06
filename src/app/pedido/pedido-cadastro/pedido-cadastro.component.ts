@@ -11,9 +11,9 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class PedidoCadastroComponent implements OnInit {
 
-  clientes: any [] = [];
-  veiculos: any [] = [];
-  opcionals: any [] = [];
+  clientes: any[] = [];
+  veiculos: any[] = [];
+  opcionals: any[] = [];
   opcionaisFiltrados: any[] = [];
   opcionaisSelecionados: any[] = [];
 
@@ -26,32 +26,32 @@ export class PedidoCadastroComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    
+
     this.spinner.show();
     this.httpClient.get(environment.apiUrl + "/Cliente")
-    .subscribe(
-      (res) => {
-        this.clientes = res as any[];
-        this.spinner.hide();
-      }
-    );
+      .subscribe(
+        (res) => {
+          this.clientes = res as any[];
+          this.spinner.hide();
+        }
+      );
     this.httpClient.get(environment.apiUrl + "/Veiculo")
-    .subscribe(
-      (res) => {
-        this.veiculos = res as any[];
-        this.spinner.hide();
-      }
-    );
+      .subscribe(
+        (res) => {
+          this.veiculos = res as any[];
+          this.spinner.hide();
+        }
+      );
     this.httpClient.get(environment.apiUrl + "/Opcional")
-    .subscribe(
-      (res) => {
-        this.opcionals = res as any[];
-        this.opcionaisFiltrados = this.opcionals;
-        console.log('opcionais: ', this.opcionals);
-        this.spinner.hide();
-      }
-    );
-    
+      .subscribe(
+        (res) => {
+          this.opcionals = res as any[];
+          this.opcionaisFiltrados = this.opcionals;
+
+          this.spinner.hide();
+        }
+      );
+
     // ouvir mudanças no campo de veiculo * filtra opcionais conforme veiculo
     this.formCadastro.get('idVeiculo')?.valueChanges.subscribe((idVeiculoSelecionado: string | null) => {
       if (idVeiculoSelecionado) {
@@ -85,7 +85,7 @@ export class PedidoCadastroComponent implements OnInit {
     idOpcional: new FormControl(''),
     idsOpcionais: new FormControl<number[]>([]),
     valor: new FormControl('', [Validators.required])
-    
+
   });
 
   get form(): any {
@@ -110,7 +110,7 @@ export class PedidoCadastroComponent implements OnInit {
 
     //ataualiza o campo "valor" do form
     this.formCadastro.get('valor')?.setValue(valor.toFixed(2));
-    
+
   }
 
   addOpcional() {
@@ -118,7 +118,7 @@ export class PedidoCadastroComponent implements OnInit {
     if (!id) return;
 
     const opc = this.opcionaisFiltrados.find(o => o.idOpcional == id);
-    
+
     // evita duplicação
     if (this.opcionaisSelecionados.some(o => o.idOpcional == id)) return;
 
@@ -143,7 +143,7 @@ export class PedidoCadastroComponent implements OnInit {
 
     this.limparMensagens();
     this.spinner.show();
-    console.log("PayloadAPI:", this.formCadastro.value);
+
     this.httpClient.post(environment.apiUrl + "/Pedido", this.formCadastro.value)
       .subscribe(
         {
@@ -165,12 +165,12 @@ export class PedidoCadastroComponent implements OnInit {
           }
         }
       )
-  }  
+  }
 
   limparMensagens(): void {
     this.mensagem_sucesso = '';
     this.mensagem_erro = '';
-  } 
+  }
 
 }
 

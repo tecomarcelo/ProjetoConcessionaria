@@ -23,31 +23,8 @@
                     <input type="hidden" formControlName="idPedido" />
                 
                     <div class="col-md-6">
-                        <label >Cliente</label>
-                        <select class="form-select" formControlName="idCliente" placeholder="Selecione o cliente">
-                            <option *ngFor="let e of clientes" value="{{e.idCliente}}">
-                                {{e.nome}} | CPF: {{e.cpf | mask: '000.000.000-00'}}
-                            </option>
-                        </select>
-                        <span class="text-danger" *ngIf="form.idCliente.touched && form.idCliente.invalid">
-                            <span *ngIf="form.idCliente.errors.required">
-                                Por favor, informe o Cliente.
-                            </span>
-                        </span>
-                    </div>
-                    
-                    <div class="col-md-6">
-                        <label >Valor</label>
-                        <input type="text" class="form-control" formControlName="valor" placeholder="Digite o novo valor"/>
-                        <span class="text-danger" *ngIf="form.valor.touched && form.valor.invalid">
-                            <span *ngIf="form.valor.errors.required">
-                                Por favor, informe o valor.
-                            </span>
-                        </span>
-                    </div>
-                    <div class="col-md-6">
                         <label>Quantidade</label>
-                        <input type="text" class="form-control" formControlName="quantidade" placeholder="digite a nova quantidade" />
+                        <input type="text" class="form-control" formControlName="quantidade" placeholder="digite a quantidade" />
                         <span class="text-danger" *ngIf="form.quantidade.touched && form.quantidade.invalid">
                             <span *ngIf="form.quantidade.errors.required">
                                 Por favor, informe a quantidade.
@@ -55,30 +32,68 @@
                         </span>
                     </div>
                     <div class="col-md-6">
-                        <label >Veiculo</label>
-                        <select class="form-select" formControlName="idVeiculo" placeholder="Selecione o Veiculo">
-                            <option *ngFor="let e of veiculos" value="{{e.idVeiculo}}">
-                                {{e.nome}} | Preço: {{e.preco}}
+                        <label>Selecione o Cliente</label>
+                        <select class="form-select" formControlName="idCliente">
+                            <option value="">Escolha um cliente</option>
+                            <option *ngFor="let e of clientes" value="{{e.idCliente}}">
+                                {{e.nome}} (CPF - {{e.cpf | mask: '000.000.000-00'}})
                             </option>
-                        </select>
-                        <span class="text-danger" *ngIf="form.idVeiculo.touched && form.idVeiculo.invalid">
-                            <span *ngIf="form.idVeiculo.errors.required">
-                                Por favor, informe o Veiculo.
+                        </select>                        
+                        <span class="text-danger" *ngIf="form.idCliente.touched && form.idCliente.invalid">
+                            <span *ngIf="form.idCliente.errors.required">
+                                Por favor, informe a cliente.
                             </span>
                         </span>
                     </div>
                     <div class="col-md-6">
-                        <label >Opcional</label>
-                        <select class="form-select" formControlName="idOpcional" placeholder="Selecione o opcional">
-                            <option *ngFor="let e of opcionals" value="{{e.idOpcional}}">
-                                {{e.item}} | Preço: {{e.preco}}
+                        <label>Selecione o Veiculo</label>
+                        <select class="form-select" formControlName="idVeiculo">
+                            <option value="">Escolha um veiculo</option>
+                            <option *ngFor="let e of veiculos" value="{{e.idVeiculo}}">
+                                {{e.nome}} | ano: {{e.anoVeiculo}} | preço: {{e.preco | currency:'BRL':'symbol':'1.2-2'}}
                             </option>
-                        </select>
-                        <span class="text-danger" *ngIf="form.idOpcional.touched && form.idOpcional.invalid">
-                            <span *ngIf="form.idOpcional.errors.required">
-                                Por favor, informe o Opcional.
+                        </select>                        
+                        <span class="text-danger" *ngIf="form.idVeiculo.touched && form.idVeiculo.invalid">
+                            <span *ngIf="form.idVeiculo.errors.required">
+                                Por favor, informe o veiculo.
                             </span>
                         </span>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Selecione os Opcionais</label>
+
+                        <div class="input-group mb-2">
+                            <select class="form-select" formControlName="idOpcional">
+                                <option value="">Escolha o opcional</option>
+                                <option *ngFor="let e of opcionaisFiltrados" value="{{e.idOpcional}}">
+                                    {{e.item}} | preço: {{e.preco | currency:'BRL':'symbol':'1.2-2'}}
+                                </option>
+                            </select>
+                            
+                            <button type="button" class="btn btn-outline-success btn-sm" (click)="addOpcional()">
+                                + Adicionar
+                            </button>
+                        </div>                    
+
+                        <!-- Lista de opcionais adicionados -->
+                         <ul class="mt-2">
+                            <li *ngFor="let op of opcionaisSelecionados; let i = index" class="d-flex align-items-center d-flex justify-content-between">
+                                <span class="fs-6 fst-italic">
+                                    ▪ {{op.item}} - {{op.preco | currency:'BRL'}}  |  
+                                    <button class="btn btn-close btn-sm" aria-label="Close" title="excluir item" style="font-size:10px" (click)="removeOpcionalLocal(i)"></button>
+                                </span>                                
+                            </li>
+                         </ul>
+
+                        <span class="text-danger" *ngIf="form.idsOpcionais.touched && form.idOpcional.invalid">
+                            <span *ngIf="form.idOpcional.errors.required">
+                                Por favor, informe ao menos um opcional.
+                            </span>
+                        </span>
+                    </div>
+                    <div class="col-md-6">
+                        <label >Valor do Pedido</label>
+                        <input type="text" id="valor" class="form-control" [value]="formEdicao.get('valor')?.value | currency:'BRL':'symbol':'1.2-2'" placeholder="Valor Total" />
                     </div>
                     <div class="col-12">
                         <br />

@@ -66,8 +66,6 @@ export class OpcionalEdicaoComponent implements OnInit {
     this.limparMensagens();
     this.spinner.hide();
 
-    console.log('payload: ', this.formEdicao.value);
-
     this.httpClient.put(environment.apiUrl + "/Opcional", this.formEdicao.value)
       .subscribe(
         {
