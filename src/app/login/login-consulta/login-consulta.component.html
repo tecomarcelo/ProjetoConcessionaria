@@ -1,0 +1,72 @@
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+
+<div *ngIf="mensagem_sucesso" class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Sucesso!</strong> {{mensagem_sucesso}}
+    <button type="button" class="btn-close" aria-label="Close" (click)="limparMensagens()"></button>
+</div>
+
+<div *ngIf="mensagem_erro" class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>Erro!</strong> {{mensagem_erro}}
+    <button type="button" class="btn-close" aria-label="Close" (click)="limparMensagens()"></button>
+</div>
+
+<!-- Section: Design Block -->
+<section class="">
+  <div class="px-4 py-5 px-md-5 text-center text-lg-start" style="background-color: hsl(0, 0%, 96%)">
+    <div class="container">
+      <div class="row gx-lg-5 align-items-center">
+        <div class="col-lg-6 mb-5 mb-lg-0">
+          <h1 class="my-5 display-3 fw-bold ls-tight">
+            Sistema Interno <br />
+            <span class="text-primary">Entre com o pedido</span>
+          </h1>
+          <p style="color: hsl(217, 10%, 50.8%)">
+            Sistema de entrada de pedidos internos, autorizados apenas
+            para funcionários cadastrados. Caso ainda não tenha o seu login,
+            favor solicitar ao setor de TI. Boas vendas!
+          </p>
+        </div>
+
+        <div class="col-lg-6 mb-5 mb-lg-0">
+          <div class="card">
+            <div class="card-body py-5 px-md-5">
+              <H3>Área de login</H3><br />
+              <form [formGroup]="formLogin" (ngSubmit)="onSubmit()" class="card-text">
+                <!-- nome input -->
+                <div data-mdb-input-init class="form-outline mb-4">
+                  <input type="text" class="form-control" formControlName="name" placeholder="digite o nome" />
+                  <label class="form-label" for="name">Nome de acesso</label>
+                  <span class="text-danger" *ngIf="form.name.touched && form.name.invalid">
+                    <span *ngIf="form.name.errors.required">
+                      Por favor, informe o nome.
+                    </span>
+                  </span>
+                </div>
+
+                <!-- Password input -->
+                <div data-mdb-input-init class="form-outline mb-4">
+                  <input type="password" class="form-control" formControlName="password" />
+                  <label class="form-label" for="senha">Password</label>
+                  <span class="text-danger" *ngIf="form.password.touched && form.password.invalid">
+                    <span *ngIf="form.password.errors.required">
+                      Por favor, informe a senha.
+                    </span>
+                  </span>
+                </div>
+
+                <!-- Submit button -->
+                <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4"  [disabled]="!formLogin.valid">
+                  Fazer login
+                </button>
+
+                <div class="text-center">
+                  <p>ou cadastre-se aqui!</p>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

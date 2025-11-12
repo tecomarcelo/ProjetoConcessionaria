@@ -26,6 +26,8 @@ import { OpcionalEdicaoComponent } from './opcional/opcional-edicao/opcional-edi
 
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
+import { LoginConsultaComponent } from './login/login-consulta/login-consulta.component';
+import { UsuarioCadastroComponent } from './login/usuario-cadastro/usuario-cadastro.component';
 
 registerLocaleData(localePt, 'pt');
 
@@ -43,7 +45,9 @@ registerLocaleData(localePt, 'pt');
     VeiculoEdicaoComponent,
     OpcionalCadastroComponent,
     OpcionalConsultaComponent,
-    OpcionalEdicaoComponent
+    OpcionalEdicaoComponent,
+    LoginConsultaComponent,
+    UsuarioCadastroComponent
 
   ],
   imports: [
