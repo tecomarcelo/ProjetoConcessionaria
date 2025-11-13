@@ -9,28 +9,35 @@ import { AuthenticationHelper } from './Helpers/authentication.helper';
 })
 export class AppComponent {
 
-  isLoggedIn: boolean = false; 
+  isLoggedIn: boolean = false;
   usuario: string = '';
 
   constructor(
     private authenticationHelper: AuthenticationHelper,
     private spinner: NgxSpinnerService
-  ) {
+  ) { }
 
-    //verificar se o usuário está autenticado 
-    if (authenticationHelper.getAuthData()) {
-      this.isLoggedIn = true; 
-      this.usuario = authenticationHelper.getAuthData().name;
-    } 
-  } 
-  
+
+  ngOnInit(): void {
+    // Observa mudanças no estado de autenticação
+    this.authenticationHelper.authState$.subscribe(data => {
+      if (data) {
+        this.isLoggedIn = true;
+        this.usuario = data.name;
+      } else {
+        this.isLoggedIn = false;
+        this.usuario = '';
+      }
+    });
+  }
+
   //método para fazer o logout do usuário 
   logout(): void {
     if (window.confirm('Deseja realmente sair do sistema?')) {
-      this.spinner.show(); 
+      this.spinner.show();
       this.authenticationHelper.signOut();
-      
+
       window.location.href = '/';
     }
-  }  
+  }
 }

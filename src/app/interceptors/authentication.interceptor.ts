@@ -19,7 +19,6 @@ export class AuthenticationInterceptor implements HttpInterceptor {
         if (req.url.includes('api/Veiculo') || req.url.includes('api/Opcional') || req.url.includes('api/Pedido') || req.url.includes('api/Cliente')) {
 
             let accessToken = this.authenticationHelper.getAuthData().accessToken;
-            console.log('## Accesstoken: ', accessToken);
 
             req = req.clone({
                 setHeaders: {
@@ -27,8 +26,6 @@ export class AuthenticationInterceptor implements HttpInterceptor {
                 }
             });
         }
-        
-        console.log('## url token: ', req);
 
         return next.handle(req);
     }

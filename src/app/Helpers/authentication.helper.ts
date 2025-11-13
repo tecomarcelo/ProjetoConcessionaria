@@ -1,26 +1,33 @@
 import { Injectable } from "@angular/core";
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 
 export class AuthenticationHelper {
+    // Estado reativo da autenticação
+    private authState = new BehaviorSubject<any>(this.getAuthData());
+    authState$ = this.authState.asObservable();
+
     //método para gravar os dados do usuário autenticado na local storage do navegador 
     signIn(dados: any): void {
         //salvando na localstorage 
         localStorage.setItem('AUTH_USUARIO', JSON.stringify(dados));
+        this.authState.next(dados);
     }
 
     //método para ler os dados gravados na localstorage 
     getAuthData(): any {
-        let dados = localStorage.getItem('AUTH_USUARIO'); 
-        if (dados != null) 
-            return JSON.parse(dados) as any 
+        let dados = localStorage.getItem('AUTH_USUARIO');
+        if (dados != null)
+            return JSON.parse(dados) as any
         else
-            return null; 
+            return null;
     }
 
     // método para apagar o conteúdo da localstorage 
     signOut(): void {
         //deletando os dados gravados na localstorage 
         localStorage.removeItem('AUTH_USUARIO');
+        this.authState.next(null);
     }
 }
