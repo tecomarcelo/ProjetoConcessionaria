@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
+import { AuthenticationHelper } from 'src/app/Helpers/authentication.helper';
 
 @Component({
   selector: 'app-login-consulta',
@@ -18,7 +19,8 @@ export class LoginConsultaComponent {
   constructor(
     private httpClient: HttpClient,
     private spinner: NgxSpinnerService,
-    private router: Router
+    private router: Router,
+    private authenticationHelper: AuthenticationHelper,
   ) { }
 
   ngOnInit(): void {
@@ -44,6 +46,7 @@ export class LoginConsultaComponent {
         
         const accessToken = res.accessToken; 
         localStorage.setItem('accessToken', accessToken);
+        this.authenticationHelper.signIn(res);
         
         this.formLogin.reset();
         this.spinner.hide();
@@ -54,13 +57,14 @@ export class LoginConsultaComponent {
         }, 1000);
       },
       error: (e) => {
-        switch (e.status) {
+        console.log("## Erro: ", e);
+
+        switch (e.status) {          
           case 401:
-            this.mensagem_erro = `Usuário não encontrado. Verifique os dados informados.`;
-            console.log(e.error.message);
+            this.mensagem_erro =  `(${e.error.StatusCode}) ${e.error.Message}`;
             break;
           default:
-            console.log(e.error.message);
+            this.mensagem_erro = `(${e.error.StatusCode}) Erro ao acessar o servidor. Consulte o suporte.`
             break;
         }
         this.spinner.hide();

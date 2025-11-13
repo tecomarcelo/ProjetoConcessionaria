@@ -7,7 +7,11 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" routerLink="">Home</a>
+          <a class="nav-link active" aria-current="page" routerLink=""
+          [class.disabled]="isLoggedIn"
+          [attr.tabindex]="isLoggedIn ? -1 : null"
+          [attr.aria-disabled]="isLoggedIn ? true : null"
+          >Home</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="pedido-cadastro">Pedidos</a>
@@ -37,10 +41,13 @@
           </ul>
         </li>
       </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
+      <div *ngIf="isLoggedIn" class="d-flex align-items-center gap-3">
+          <span class="nav-link py-1"><small>Bem vindo! {{usuario}}</small></span>
+          
+          <button type="button" class="btn btn-outline-danger btn-sm" (click)="logout()">
+              Logout
+          </button>   
+      </div>
     </div>
   </div>
 </nav>
