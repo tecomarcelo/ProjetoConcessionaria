@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { AuthenticationHelper } from "../Helpers/authentication.helper";
+import { AuthenticationHelper } from "../helpers/authentication.helper";
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from "@angular/common/http";
 import { Observable } from "rxjs";
 

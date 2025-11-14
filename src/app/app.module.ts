@@ -29,6 +29,7 @@ import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { LoginConsultaComponent } from './login/login-consulta/login-consulta.component';
 import { UsuarioCadastroComponent } from './login/usuario-cadastro/usuario-cadastro.component';
+import { AuthenticationGuard } from './guards/authentication.guard';
 
 registerLocaleData(localePt, 'pt');
 
@@ -49,7 +50,6 @@ registerLocaleData(localePt, 'pt');
     OpcionalEdicaoComponent,
     LoginConsultaComponent,
     UsuarioCadastroComponent
-
   ],
   imports: [
     BrowserModule,
@@ -64,6 +64,7 @@ registerLocaleData(localePt, 'pt');
     FilterPipeModule
   ],
   providers: [
+    AuthenticationGuard,
     { provide: LOCALE_ID, useValue: 'pt' },
     { provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true },
   ],

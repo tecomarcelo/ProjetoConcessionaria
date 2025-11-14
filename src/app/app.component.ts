@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { AuthenticationHelper } from './Helpers/authentication.helper';
+import { AuthenticationHelper } from './helpers/authentication.helper';
 
 @Component({
   selector: 'app-root',

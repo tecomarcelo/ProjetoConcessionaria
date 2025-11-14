@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
-import { AuthenticationHelper } from 'src/app/Helpers/authentication.helper';
+import { AuthenticationHelper } from 'src/app/helpers/authentication.helper';
 
 @Component({
   selector: 'app-login-consulta',
@@ -37,6 +37,7 @@ export class LoginConsultaComponent {
   }
 
   onSubmit(): void {
+    this.limparMensagens();
     this.spinner.show();
 
     this.httpClient.post(environment.apiUrlAuth + "/users/auth", this.formLogin.value)    

@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
+import { AuthenticationGuard } from "./guards/authentication.guard";
 
 //importando os componentes que serão mapeados
 import { LoginConsultaComponent } from "./login/login-consulta/login-consulta.component";
@@ -22,18 +23,18 @@ const routes: Routes = [
     { path: '', component: LoginConsultaComponent }, /* raiz do projeto */
     { path: 'login-consulta', component: LoginConsultaComponent },
     { path: 'usuario-cadastro', component: UsuarioCadastroComponent },
-    { path: 'cliente-cadastro', component: ClienteCadastroComponent },
-    { path: 'cliente-consulta', component: ClienteConsultaComponent },
-    { path: 'cliente-edicao/:idCliente', component: ClienteEdicaoComponent },
-    { path: 'pedido-cadastro', component: PedidoCadastroComponent },
-    { path: 'pedido-consulta', component: PedidoConsultaComponent },
-    { path: 'pedido-edicao/:idPedido', component: PedidoEdicaoComponent },
-    { path: 'veiculo-cadastro', component: VeiculoCadastroComponent },
-    { path: 'veiculo-consulta', component: VeiculoConsultaComponent },
-    { path: 'veiculo-edicao/:idVeiculo', component: VeiculoEdicaoComponent },
-    { path: 'opcional-cadastro', component: OpcionalCadastroComponent },
-    { path: 'opcional-consulta', component: OpcionalConsultaComponent },
-    { path: 'opcional-edicao/:idOpcional', component: OpcionalEdicaoComponent }
+    { path: 'cliente-cadastro', component: ClienteCadastroComponent, canActivate: [AuthenticationGuard] },
+    { path: 'cliente-consulta', component: ClienteConsultaComponent, canActivate: [AuthenticationGuard] },
+    { path: 'cliente-edicao/:idCliente', component: ClienteEdicaoComponent, canActivate: [AuthenticationGuard] },
+    { path: 'pedido-cadastro', component: PedidoCadastroComponent, canActivate: [AuthenticationGuard] },
+    { path: 'pedido-consulta', component: PedidoConsultaComponent, canActivate: [AuthenticationGuard] },
+    { path: 'pedido-edicao/:idPedido', component: PedidoEdicaoComponent, canActivate: [AuthenticationGuard] },
+    { path: 'veiculo-cadastro', component: VeiculoCadastroComponent, canActivate: [AuthenticationGuard] },
+    { path: 'veiculo-consulta', component: VeiculoConsultaComponent, canActivate: [AuthenticationGuard] },
+    { path: 'veiculo-edicao/:idVeiculo', component: VeiculoEdicaoComponent, canActivate: [AuthenticationGuard] },
+    { path: 'opcional-cadastro', component: OpcionalCadastroComponent, canActivate: [AuthenticationGuard] },
+    { path: 'opcional-consulta', component: OpcionalConsultaComponent, canActivate: [AuthenticationGuard] },
+    { path: 'opcional-edicao/:idOpcional', component: OpcionalEdicaoComponent, canActivate: [AuthenticationGuard] }
 
 ];
 
